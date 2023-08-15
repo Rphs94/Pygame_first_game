@@ -75,6 +75,7 @@ list_ball=[Ball(screen.get_width()/2,screen.get_height()/2)]
 
 #Gestion des rackets
 racket_1=racket(screen.get_width()/10,screen.get_height()/2,100,30)
+racket_2=racket(screen.get_width()*9/10,screen.get_height()/2,100,30)
 
 
 while running:
@@ -88,14 +89,19 @@ while running:
     screen.fill("black")
     
     #Mouvement des rackets
+    #Racket1
     pygame.draw.line(screen,"white",racket_1.get_coord_bottom(),racket_1.get_coord_top(),racket_1.get_width())
     keys = pygame.key.get_pressed()
     if keys[pygame.K_z]:
         racket_1.set_coord_y(racket_1.get_coord_y()-speed_racket*dt)
     elif keys[pygame.K_s]:
         racket_1.set_coord_y(racket_1.get_coord_y()+speed_racket*dt)
-
-
+    #Racket2
+    pygame.draw.line(screen,"white",racket_2.get_coord_bottom(),racket_2.get_coord_top(),racket_2.get_width())
+    if keys[pygame.K_p]:
+        racket_2.set_coord_y(racket_2.get_coord_y()-speed_racket*dt)
+    elif keys[pygame.K_m]:
+        racket_2.set_coord_y(racket_2.get_coord_y()+speed_racket*dt)
 
 
     #Mouvement des balles
@@ -120,6 +126,12 @@ while running:
         if abs(ball.get_x()-racket_1.get_coord_x())<=30 and not (ball.get_y()>racket_1.get_coord_top()[1] or ball.get_y()<racket_1.get_coord_bottom()[1]) and ball.get_speed_x()==1: 
             ball.set_x(ball.get_x()+300*dt)
     
+    #Interaction de la balle avec la raquette droite 
+    
+        if abs(ball.get_x()-racket_2.get_coord_x())<=30 and not (ball.get_y()>racket_2.get_coord_top()[1] or ball.get_y()<racket_2.get_coord_bottom()[1]) and ball.get_speed_x()==1: 
+            ball.set_speed_x(-1)
+        if abs(ball.get_x()-racket_2.get_coord_x())<=30 and not (ball.get_y()>racket_2.get_coord_top()[1] or ball.get_y()<racket_2.get_coord_bottom()[1]) and ball.get_speed_x()==-1: 
+            ball.set_x(ball.get_x()-300*dt)
     
 
 
