@@ -65,7 +65,7 @@ class racket():
 
 #Paramètres généraux
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((1500, 720))
 clock = pygame.time.Clock()
 speed_racket=300
 running = True
@@ -97,6 +97,7 @@ while running:
             racket_2=racket(screen.get_width()*9/10,screen.get_height()/2,100,30)
             list_ball=[Ball(screen.get_width()/2,screen.get_height()/2)]
             restart=False
+            time.sleep(0.5)
     
         
 
@@ -108,15 +109,15 @@ while running:
     #Racket1
     pygame.draw.line(screen,"white",racket_1.get_coord_bottom(),racket_1.get_coord_top(),racket_1.get_width())
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_z]:
+    if keys[pygame.K_z] and racket_1.get_coord_bottom()[1]>0:
         racket_1.set_coord_y(racket_1.get_coord_y()-speed_racket*dt)
-    elif keys[pygame.K_s]:
+    elif keys[pygame.K_s] and racket_1.get_coord_top()[1]<screen.get_height():
         racket_1.set_coord_y(racket_1.get_coord_y()+speed_racket*dt)
     #Racket2
     pygame.draw.line(screen,"white",racket_2.get_coord_bottom(),racket_2.get_coord_top(),racket_2.get_width())
-    if keys[pygame.K_p]:
+    if keys[pygame.K_p] and racket_2.get_coord_bottom()[1]>0:
         racket_2.set_coord_y(racket_2.get_coord_y()-speed_racket*dt)
-    elif keys[pygame.K_m]:
+    elif keys[pygame.K_m] and racket_2.get_coord_top()[1]<screen.get_height():
         racket_2.set_coord_y(racket_2.get_coord_y()+speed_racket*dt)
 
 
