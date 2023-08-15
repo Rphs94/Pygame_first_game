@@ -1,4 +1,5 @@
 import sys,pygame
+import time
 
 class Ball():
     def __init__(self,pos_x,pos_y):
@@ -69,7 +70,10 @@ clock = pygame.time.Clock()
 speed_racket=300
 running = True
 dt = 0
-
+score_player_1=0
+score_player_2=0
+restart=False
+keys = pygame.key.get_pressed()
 #Gestion des balles
 list_ball=[Ball(screen.get_width()/2,screen.get_height()/2)]
 
@@ -87,6 +91,18 @@ while running:
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
+
+    if restart==True:
+            racket_1=racket(screen.get_width()/10,screen.get_height()/2,100,30)
+            racket_2=racket(screen.get_width()*9/10,screen.get_height()/2,100,30)
+            list_ball=[Ball(screen.get_width()/2,screen.get_height()/2)]
+            restart=False
+    
+        
+
+
+
+
     
     #Mouvement des rackets
     #Racket1
@@ -108,17 +124,13 @@ while running:
     for ball in list_ball :
         pygame.draw.circle(screen, "white", ball.get_coord(), 30)
 
-    #Interaction de la balle avec le mur de droite
+    # Gestion déplacement de la balle
         if ball.get_x()<screen.get_width()-30 and ball.get_speed_x()==1: 
             ball.set_x(ball.get_x()+300*dt)
-        elif ball.get_x()>=screen.get_width()-30 and ball.get_speed_x()==1 :
-            ball.set_speed_x(-1)
-        elif ball.get_x()>=screen.get_width()-30 and ball.get_speed_x()==-1 :
-            ball.set_x(ball.get_x()-300*dt)
         elif ball.get_x()>0+30 and ball.get_speed_x()==-1: 
             ball.set_x(ball.get_x()-300*dt)
-        elif ball.get_x()<=0+30 and ball.get_speed_x()==-1: 
-            ball.set_speed_x(1)
+
+
     #Interaction de la balle avec la raquette gauche 
     
         if abs(ball.get_x()-racket_1.get_coord_x())<=30 and not (ball.get_y()>racket_1.get_coord_top()[1] or ball.get_y()<racket_1.get_coord_bottom()[1]) and ball.get_speed_x()==-1: 
@@ -133,7 +145,6 @@ while running:
         if abs(ball.get_x()-racket_2.get_coord_x())<=30 and not (ball.get_y()>racket_2.get_coord_top()[1] or ball.get_y()<racket_2.get_coord_bottom()[1]) and ball.get_speed_x()==-1: 
             ball.set_x(ball.get_x()-300*dt)
     
-
 
     
     #Interaction de la balle avec les surfaces verticales
@@ -150,7 +161,15 @@ while running:
     
 
 
-    
+    #Gestion de la balle touchant un des deux côtés
+
+        if abs(ball.get_x()-screen.get_width())<=30:
+            restart=True
+            score_player_1+=1
+
+        elif ball.get_x()-30<=0:
+            restart=True
+            score_player_2+=1
 
     
 
@@ -165,3 +184,16 @@ while running:
     dt = clock.tick(60) / 1000
 
 pygame.quit()
+
+
+# #Interaction de la balle avec les murs
+#         if ball.get_x()<screen.get_width()-30 and ball.get_speed_x()==1: 
+#             ball.set_x(ball.get_x()+300*dt)
+#         elif ball.get_x()>=screen.get_width()-30 and ball.get_speed_x()==1 :
+#             ball.set_speed_x(-1)
+#         elif ball.get_x()>=screen.get_width()-30 and ball.get_speed_x()==-1 :
+#             ball.set_x(ball.get_x()-300*dt)
+#         elif ball.get_x()>0+30 and ball.get_speed_x()==-1: 
+#             ball.set_x(ball.get_x()-300*dt)
+#         elif ball.get_x()<=0+30 and ball.get_speed_x()==-1: 
+#             ball.set_speed_x(1)
