@@ -187,14 +187,3 @@ while running:
 pygame.quit()
 
 
-# #Interaction de la balle avec les murs
-#         if ball.get_x()<screen.get_width()-30 and ball.get_speed_x()==1: 
-#             ball.set_x(ball.get_x()+300*dt)
-#         elif ball.get_x()>=screen.get_width()-30 and ball.get_speed_x()==1 :
-#             ball.set_speed_x(-1)
-#         elif ball.get_x()>=screen.get_width()-30 and ball.get_speed_x()==-1 :
-#             ball.set_x(ball.get_x()-300*dt)
-#         elif ball.get_x()>0+30 and ball.get_speed_x()==-1: 
-#             ball.set_x(ball.get_x()-300*dt)
-#         elif ball.get_x()<=0+30 and ball.get_speed_x()==-1: 
-#             ball.set_speed_x(1)
