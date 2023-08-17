@@ -1,5 +1,4 @@
-import sys,pygame
-import time
+import pygame
 
 class Ball():
     def __init__(self,pos_x,pos_y):
@@ -67,7 +66,8 @@ class racket():
 pygame.init()
 screen = pygame.display.set_mode((1500, 720))
 clock = pygame.time.Clock()
-speed_racket=300
+speed_ball=500
+cp=speed_ball
 running = True
 dt = 0
 score_player_1=0
@@ -96,13 +96,9 @@ while running:
             racket_1=racket(screen.get_width()/10,screen.get_height()/2,100,30)
             racket_2=racket(screen.get_width()*9/10,screen.get_height()/2,100,30)
             list_ball=[Ball(screen.get_width()/2,screen.get_height()/2)]
+            speed_ball=0
             restart=False
-            time.sleep(0.5)
-    
-        
-
-
-
+            
 
     
     #Mouvement des rackets
@@ -110,15 +106,19 @@ while running:
     pygame.draw.line(screen,"white",racket_1.get_coord_bottom(),racket_1.get_coord_top(),racket_1.get_width())
     keys = pygame.key.get_pressed()
     if keys[pygame.K_z] and racket_1.get_coord_bottom()[1]>0:
-        racket_1.set_coord_y(racket_1.get_coord_y()-speed_racket*dt)
+        racket_1.set_coord_y(racket_1.get_coord_y()-speed_ball*dt)
+        speed_ball=cp
     elif keys[pygame.K_s] and racket_1.get_coord_top()[1]<screen.get_height():
-        racket_1.set_coord_y(racket_1.get_coord_y()+speed_racket*dt)
+        racket_1.set_coord_y(racket_1.get_coord_y()+speed_ball*dt)
+        speed_ball=cp
     #Racket2
     pygame.draw.line(screen,"white",racket_2.get_coord_bottom(),racket_2.get_coord_top(),racket_2.get_width())
     if keys[pygame.K_p] and racket_2.get_coord_bottom()[1]>0:
-        racket_2.set_coord_y(racket_2.get_coord_y()-speed_racket*dt)
+        racket_2.set_coord_y(racket_2.get_coord_y()-speed_ball*dt)
+        speed_ball=cp
     elif keys[pygame.K_m] and racket_2.get_coord_top()[1]<screen.get_height():
-        racket_2.set_coord_y(racket_2.get_coord_y()+speed_racket*dt)
+        racket_2.set_coord_y(racket_2.get_coord_y()+speed_ball*dt)
+        speed_ball=cp
 
 
     #Mouvement des balles
@@ -127,9 +127,9 @@ while running:
 
     # Gestion déplacement de la balle
         if ball.get_x()<screen.get_width()-30 and ball.get_speed_x()==1: 
-            ball.set_x(ball.get_x()+300*dt)
+            ball.set_x(ball.get_x()+speed_ball*dt)
         elif ball.get_x()>0+30 and ball.get_speed_x()==-1: 
-            ball.set_x(ball.get_x()-300*dt)
+            ball.set_x(ball.get_x()-speed_ball*dt)
 
 
     #Interaction de la balle avec la raquette gauche 
@@ -137,26 +137,26 @@ while running:
         if abs(ball.get_x()-racket_1.get_coord_x())<=30 and not (ball.get_y()>racket_1.get_coord_top()[1] or ball.get_y()<racket_1.get_coord_bottom()[1]) and ball.get_speed_x()==-1: 
             ball.set_speed_x(1)
         if abs(ball.get_x()-racket_1.get_coord_x())<=30 and not (ball.get_y()>racket_1.get_coord_top()[1] or ball.get_y()<racket_1.get_coord_bottom()[1]) and ball.get_speed_x()==1: 
-            ball.set_x(ball.get_x()+300*dt)
+            ball.set_x(ball.get_x()+speed_ball*dt)
     
     #Interaction de la balle avec la raquette droite 
     
         if abs(ball.get_x()-racket_2.get_coord_x())<=30 and not (ball.get_y()>racket_2.get_coord_top()[1] or ball.get_y()<racket_2.get_coord_bottom()[1]) and ball.get_speed_x()==1: 
             ball.set_speed_x(-1)
         if abs(ball.get_x()-racket_2.get_coord_x())<=30 and not (ball.get_y()>racket_2.get_coord_top()[1] or ball.get_y()<racket_2.get_coord_bottom()[1]) and ball.get_speed_x()==-1: 
-            ball.set_x(ball.get_x()-300*dt)
+            ball.set_x(ball.get_x()-speed_ball*dt)
     
 
     
     #Interaction de la balle avec les surfaces verticales
         if ball.get_y()<screen.get_height()-30 and ball.get_speed_y()==1: 
-            ball.set_y(ball.get_y()+300*dt)
+            ball.set_y(ball.get_y()+speed_ball*dt)
         elif ball.get_y()>=screen.get_height()-30 and ball.get_speed_y()==1 :
             ball.set_speed_y(-1)
         elif ball.get_y()>=screen.get_height()-30 and ball.get_speed_y()==-1 :
-            ball.set_y(ball.get_y()-300*dt)
+            ball.set_y(ball.get_y()-speed_ball*dt)
         elif ball.get_y()>0+30 and ball.get_speed_y()==-1: 
-            ball.set_y(ball.get_y()-300*dt)
+            ball.set_y(ball.get_y()-speed_ball*dt)
         elif ball.get_y()<=0+30 and ball.get_speed_y()==-1: 
             ball.set_speed_y(1)
     
